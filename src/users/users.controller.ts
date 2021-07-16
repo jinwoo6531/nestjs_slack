@@ -73,4 +73,3 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 }
-
