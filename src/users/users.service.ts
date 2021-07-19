@@ -18,8 +18,6 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ where: { email } });
 
     if (user) {
-      //이미 존재하는 유저라고 에러
-
       return;
     }
 
