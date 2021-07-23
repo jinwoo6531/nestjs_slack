@@ -1,5 +1,5 @@
 import { Users } from './../entities/Users';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,7 +18,7 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ where: { email } });
 
     if (user) {
-      return;
+      throw new UnauthorizedException('이미 존재하는 사용자입니다.');
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
