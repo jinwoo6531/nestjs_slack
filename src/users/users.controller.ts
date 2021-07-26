@@ -1,3 +1,5 @@
+import { NotLoggedInGuard } from './../auth/not-logged-in.guard';
+import { LoggedInGuard } from './../auth/logged-in.guard';
 import { UndefinedToNullInterceptor } from './../common/interceptors/undefinedToNull.interceptor';
 import { UserDto } from './../common/dto/user.dto';
 import {
@@ -17,6 +19,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/common/decorators/user.decorator';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @UseInterceptors(UndefinedToNullInterceptor)
 @ApiTags('USER')
@@ -24,6 +27,7 @@ import { User } from 'src/common/decorators/user.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(new NotLoggedInGuard())
   @ApiOperation({ summary: '회원가입' })
   @Post()
   postUsers(@Body() createUserDto: CreateUserDto) {
@@ -36,12 +40,13 @@ export class UsersController {
     type: UserDto,
   })
   @ApiOperation({ summary: '로그인' })
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(new LocalAuthGuard())
   @Post('login')
   logIn(@User() user) {
     return user;
   }
 
+  @UseGuards(new LoggedInGuard())
   @ApiOperation({ summary: '로그아웃' })
   @Post('logout')
   logOut(@Response() res) {
@@ -54,10 +59,14 @@ export class UsersController {
     description: '성공',
     type: UserDto,
   })
+  @ApiResponse({
+    status: 500,
+    description: '서버 에러',
+  })
   @ApiOperation({ summary: '내 정보 조회' })
   @Get()
   getUsers(@User() user) {
-    return user;
+    return user || false;
   }
 
   @Get(':id')
