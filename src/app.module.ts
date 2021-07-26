@@ -12,7 +12,18 @@ import { typeOrmConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
+    // TypeOrmModule.forRoot(typeOrmConfig),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '1234',
+      database: 'sleact',
+      entities: ['dist/**/*.{.ts,.js'],
+      synchronize: true,
+      logging: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

@@ -18,9 +18,10 @@ import { DMs } from './DMs';
 import { Mentions } from './Mentions';
 import { WorkspaceMembers } from './WorkspaceMembers';
 import { Workspaces } from './Workspaces';
+import { IsEmail, IsString, IsNotEmpty } from 'class-validator';
 
 @Index('email', ['email'], { unique: true })
-@Entity({ schema: 'sleact', name: 'users' })
+@Entity({ name: 'Users' })
 export class Users {
   @ApiProperty({
     example: 1,
@@ -29,6 +30,7 @@ export class Users {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @IsEmail()
   @ApiProperty({
     example: 'test@test.com',
     description: '이메일',
@@ -36,6 +38,8 @@ export class Users {
   @Column('varchar', { name: 'email', unique: true, length: 30 })
   email: string;
 
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty({
     example: 'jintak',
     description: '닉네임',

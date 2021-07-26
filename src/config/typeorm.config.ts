@@ -8,8 +8,9 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: 'root',
   password: '1234',
   database: 'sleact',
-  //   entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  autoLoadEntities: true,
+  // entities: [__dirname + '../**/*.entity.{js,ts}'],
+  entities: [__dirname + '../entities/*.{js,ts}'],
+  // autoLoadEntities: true,
   synchronize: true,
   logging: true,
 };

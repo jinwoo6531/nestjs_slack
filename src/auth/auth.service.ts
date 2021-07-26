@@ -1,0 +1,30 @@
+import { Users } from './../entities/Users';
+import { InjectRepository } from '@nestjs/typeorm';
+import { bcrypt } from 'bcryptjs';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>,
+  ) {}
+
+  async validateUser(email: string, password: string) {
+    const user = await this.usersRepository.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      return null;
+    }
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    }
+
+    return null;
+  }
+}
