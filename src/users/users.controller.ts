@@ -31,7 +31,7 @@ export class UsersController {
   @ApiOperation({ summary: '회원가입' })
   @Post()
   postUsers(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.postUsers(createUserDto);
+    return this.usersService.join(createUserDto);
   }
 
   @ApiResponse({
@@ -67,20 +67,5 @@ export class UsersController {
   @Get()
   getUsers(@User() user) {
     return user || false;
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
   }
 }
