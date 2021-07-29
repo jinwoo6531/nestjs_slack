@@ -20,6 +20,13 @@ export class UsersService {
     private connection: Connection,
   ) {}
 
+  async findByEmail(email: string) {
+    return this.usersRepository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    });
+  }
+
   async join(createUserDto: CreateUserDto) {
     const runner = this.connection.createQueryRunner();
     await runner.connect();
