@@ -31,7 +31,7 @@ export class WorkspacesService {
   async findMyWorkspaces(myId: number) {
     return this.workspacesRepository.find({
       where: {
-        WorkspaceMembers: [{ UserId: myId }],
+        WorkspaceMembers: [{ UserId: myId }], //다수의 workspace가져오기
       },
     });
   }
