@@ -6,7 +6,7 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 class MockUserRepository {
-  #data = [{ id: 1, email: 'zerohch0@gmail.com' }];
+  #data = [{ id: 1, email: 'test@gmail.com' }];
   findOne({ where: { email } }) {
     const data = this.#data.find((v) => v.email === email);
     if (data) {
@@ -48,7 +48,7 @@ describe('UsersService', () => {
   });
 
   it('findByEmail은 이메일을 통해 유저를 찾아야 함', () => {
-    expect(service.findByEmail('test@test.com')).resolves.toBe({
+    expect(service.findByEmail('test@test.com')).resolves.toStrictEqual({
       email: 'admin@admin.com',
       id: 1,
     });
